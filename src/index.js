@@ -8,6 +8,7 @@ async function run() {
     let [owner, repo] = repoFull.split("/");
 
     let pullRequests = new PullRequests(owner, repo, token);
+    await pullRequests.getAllPullRequests();
     console.log(pullRequests.pull_requests);
   } catch (error) {
     core.setFailed(error.message);
