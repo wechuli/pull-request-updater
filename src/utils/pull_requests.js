@@ -13,6 +13,7 @@ class PullRequests {
       "GET /repos/:owner/:repo/pulls",
       { owner: this.owner, repo: this.repo, state: "open" }
     );
+    console.log(data);
     this.pull_requests = data;
   }
 }
