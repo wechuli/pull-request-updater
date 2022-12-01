@@ -9507,6 +9507,33 @@ function wrappy (fn, cb) {
 
 /***/ }),
 
+/***/ 273:
+/***/ ((module, __unused_webpack_exports, __nccwpck_require__) => {
+
+const github = __nccwpck_require__(5438);
+
+class PullRequests {
+  constructor(owner, repo, token) {
+    this.owner = owner;
+    this.repo = repo;
+    this.token = token;
+    this.octokit = github.getOctokit(token);
+  }
+
+  async getAllPullRequests() {
+    const { data } = await this.octokit.paginate(
+      "GET /repos/:owner/:repo/pulls",
+      { owner: this.owner, repo: this.repo, state: "open" }
+    );
+    this.pull_requests = data;
+  }
+}
+
+module.exports = PullRequests;
+
+
+/***/ }),
+
 /***/ 2877:
 /***/ ((module) => {
 
@@ -9685,10 +9712,23 @@ var __webpack_exports__ = {};
 // This entry need to be wrapped in an IIFE because it need to be isolated against other modules in the chunk.
 (() => {
 const core = __nccwpck_require__(2186);
-const github = __nccwpck_require__(5438);
+const PullRequests = __nccwpck_require__(273);
 
-console.log("I don't do anything meaningful");
-console.log("At some point i");
+async function run() {
+  try {
+    let token = core.getInput("token");
+    let repoFull = process.env["GITHUB_REPOSITORY"];
+    let [owner, repo] = repoFull.split("/");
+
+    let pullRequests = new PullRequests(owner, repo, token);
+    console.log(pullRequests.pull_requests);
+  } catch (error) {
+    core.setFailed(error.message);
+  }
+}
+
+run();
+
 })();
 
 module.exports = __webpack_exports__;
