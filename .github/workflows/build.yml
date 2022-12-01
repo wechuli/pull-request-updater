@@ -1,0 +1,30 @@
+name: Build Action
+on:
+  push:
+    branches:
+      - "main"
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repo
+        uses: actions/checkout@v3
+        with:
+          fetch-depth: 0
+      - name: install nodejs
+        uses: actions/setup-node@v3
+        with:
+          node-version: '16'
+      - name: Install dependencies
+        run: npm ci
+      - name: Build Action
+        run: npm run build
+      - name: Commit and push
+        env:
+          ACTOR: ${{ github.actor }}
+        run: |
+            git config --global user.name "$ACTOR"
+            git config --global user.email "$ACTOR@users.noreply.github.com"
+            git add .
+            git commit -m "Action build on run number $GITHUB_RUN_NUMBER"
+            git push origin
