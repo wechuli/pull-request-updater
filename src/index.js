@@ -1,5 +1,17 @@
 const core = require("@actions/core");
-const github = require("@actions/github");
+const PullRequests = require("./utils/pull_requests");
 
-console.log("I don't do anything meaningful");
-console.log("At some point i");
+async function run() {
+  try {
+    let token = core.getInput("token");
+    let repoFull = process.env["GITHUB_REPOSITORY"];
+    let [owner, repo] = repoFull.split("/");
+
+    let pullRequests = new PullRequests(owner, repo, token);
+    console.log(pullRequests.pull_requests);
+  } catch (error) {
+    core.setFailed(error.message);
+  }
+}
+
+run();

@@ -1,10 +1,10 @@
 name: 'Pull request updater'
 description: 'GitHub Action to update pull request with base branches'
 inputs:
-  random-parameter:
-    description: 'random param'
+  token:
+    description: 'token to be used for making authenticated calls to the GitHub API'
     required: false
-    default: 'random'
+    default: ${{ github.token }}
 
 outputs:
   random-output:
