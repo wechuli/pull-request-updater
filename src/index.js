@@ -9,7 +9,7 @@ async function run() {
 
     let pullRequests = new PullRequests(owner, repo, token);
     await pullRequests.getAllPullRequests();
-    console.log(pullRequests.pull_requests);
+    //console.log(pullRequests.pull_requests);
   } catch (error) {
     core.setFailed(error.message);
   }
