@@ -9525,7 +9525,6 @@ class PullRequests {
       "GET /repos/:owner/:repo/pulls",
       { owner: this.owner, repo: this.repo, state: "open" }
     );
-    console.log(data);
     this.pull_requests = data;
   }
 }
@@ -9722,6 +9721,7 @@ async function run() {
     let [owner, repo] = repoFull.split("/");
 
     let pullRequests = new PullRequests(owner, repo, token);
+    await pullRequests.getAllPullRequests();
     console.log(pullRequests.pull_requests);
   } catch (error) {
     core.setFailed(error.message);
