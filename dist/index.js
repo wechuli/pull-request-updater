@@ -9511,22 +9511,38 @@ function wrappy (fn, cb) {
 /***/ ((module, __unused_webpack_exports, __nccwpck_require__) => {
 
 const github = __nccwpck_require__(5438);
-{
-}
+
 class PullRequests {
   constructor(owner, repo, token) {
     this.owner = owner;
     this.repo = repo;
     this.token = token;
-    this.octokit = github.getOctokit(token, {});
+    this.octokit = github.getOctokit(token);
   }
 
   async getAllPullRequests() {
-    const results = await this.octokit.paginate(
+    const allOpenPullRequests = await this.octokit.paginate(
       "GET /repos/:owner/:repo/pulls",
       { owner: this.owner, repo: this.repo, state: "open" }
     );
-    console.log(results);
+    this.pulls = allOpenPullRequests;
+  }
+
+  async createPRComments() {}
+  async filterBehindPullREquests() {
+    let filteredPRs = [];
+    for (let pr of this.pulls) {
+      let head = pr["head"]["label"];
+      let base = pr["base"]["label"];
+
+      let results = await this.octokit.repos.compareCommits({
+        owner: this.owner,
+        repo: this.repo,
+        base: base,
+        head: head,
+      });
+      console.log(results);
+    }
   }
 }
 
@@ -9723,6 +9739,7 @@ async function run() {
 
     let pullRequests = new PullRequests(owner, repo, token);
     await pullRequests.getAllPullRequests();
+    await pullRequests.filterBehindPullREquests();
     //console.log(pullRequests.pull_requests);
   } catch (error) {
     core.setFailed(error.message);
