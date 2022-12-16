@@ -23,7 +23,7 @@ class PullRequests {
       let head = pr["head"]["label"];
       let base = pr["base"]["label"];
 
-      let results = await this.octokit.repos.compareCommitsWithBaseHead({
+      let results = await this.octokit.rest.repos.compareCommitsWithBaseHead({
         owner: this.owner,
         repo: this.repo,
         basehead: `${base}...${head}`,
