@@ -1,5 +1,5 @@
 const core = require("@actions/core");
-const PullRequests = require("./utils/pull_requests");
+const PullRequests = require("./pr/pull_requests");
 
 async function run() {
   try {
