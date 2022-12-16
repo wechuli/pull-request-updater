@@ -1,4 +1,5 @@
 const github = require("@actions/github");
+const axios = require("axios");
 
 class PullRequests {
   constructor(owner, repo, token) {
@@ -23,10 +24,16 @@ class PullRequests {
       let head = pr["head"]["label"];
       let base = pr["base"]["label"];
 
-      let results = await this.octokit.rest.repos.compareCommitsWithBaseHead({
+      // let results = await this.octokit.rest.repos.compareCommitsWithBaseHead({
+      //   owner: this.owner,
+      //   repo: this.repo,
+      //   basehead: `${base}...${head}`,
+      // });
+
+      let results = await this.octokit.rest.pulls.get({
         owner: this.owner,
         repo: this.repo,
-        basehead: `${base}...${head}`,
+        pull_number: pr.number,
       });
       console.log(results);
     }
