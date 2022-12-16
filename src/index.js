@@ -9,6 +9,8 @@ async function run() {
 
     let pullRequests = new PullRequests(owner, repo, token);
     await pullRequests.getAllPullRequests();
+    console.log(pullRequests.pulls);
+    
     await pullRequests.filterBehindPullREquests();
     //console.log(pullRequests.pull_requests);
   } catch (error) {

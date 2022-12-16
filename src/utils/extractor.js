@@ -6,3 +6,5 @@ function extractInputsAndEnvs() {
   const [owner, repo] = repoFull.split("/");
   return { token, owner, repo };
 }
+
+module.exports = extractInputsAndEnvs;
