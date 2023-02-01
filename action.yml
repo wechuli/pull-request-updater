@@ -5,11 +5,10 @@ inputs:
     description: 'token to be used for making authenticated calls to the GitHub API'
     required: false
     default: ${{ github.token }}
-
-outputs:
-  random-output:
-    description: 'Some random output'
-
+  repo:
+    description: 'the repo where you want to update the pull requests, defaults to the current repository executing the runner'
+    required: false
+    default: ${{ github.repository }}
 runs:
   using: 'node16'
   main: 'dist/index.js'
