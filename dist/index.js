@@ -13005,6 +13005,25 @@ module.exports = PullRequests;
 
 /***/ }),
 
+/***/ 4112:
+/***/ ((module, __unused_webpack_exports, __nccwpck_require__) => {
+
+const core = __nccwpck_require__(2186);
+
+function extractInputsAndEnvs() {
+  const token = core.getInput("token");
+  const repoFull = process.env["GITHUB_REPOSITORY"];
+  const [owner, repo] = repoFull.split("/");
+  return [token, owner, repo];
+}
+
+module.exports = {
+  extractInputsAndEnvs,
+};
+
+
+/***/ }),
+
 /***/ 2877:
 /***/ ((module) => {
 
@@ -17084,17 +17103,16 @@ var __webpack_exports__ = {};
 (() => {
 const core = __nccwpck_require__(2186);
 const PullRequests = __nccwpck_require__(865);
+const { extractInputsAndEnvs } = __nccwpck_require__(4112);
 
 async function run() {
   try {
-    let token = core.getInput("token");
-    let repoFull = process.env["GITHUB_REPOSITORY"];
-    let [owner, repo] = repoFull.split("/");
+    let [token, owner, repo] = extractInputsAndEnvs();
 
     let pullRequests = new PullRequests(owner, repo, token);
     await pullRequests.getAllPullRequests();
     console.log(pullRequests.pulls);
-    
+
     await pullRequests.filterBehindPullREquests();
     //console.log(pullRequests.pull_requests);
   } catch (error) {
