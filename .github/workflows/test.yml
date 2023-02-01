@@ -7,5 +7,3 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: wechuli/pull-request-updater@main
-        with:
-          repo: 'fakerepo'
