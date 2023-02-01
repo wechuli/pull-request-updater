@@ -1,0 +1,11 @@
+name: Test pull request updater
+on:
+  workflow_dispatch:
+
+jobs:
+  testjob:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: wechuli/pull-request-updater@main
+        with:
+          repo: 'fakerepo'
