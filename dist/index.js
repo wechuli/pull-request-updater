@@ -13013,18 +13013,19 @@ const core = __nccwpck_require__(2186);
 function extractInputsAndEnvs() {
   const token = core.getInput("token");
   const repoFull = core.getInput("repo") || process.env["GITHUB_REPOSITORY"];
-
-  let owner, repo;
+  let reposplit = repoFull.split("/");
 
   // check if the repository is valid
   try {
-    [owner, repo] = repoFull.split("/");
+    if (reposplit.length !== 2) {
+      throw new Error("Invalid repository format");
+    }
   } catch (error) {
     throw new Error(
       "It appears the repository format is invalid. Please use the format 'owner/repo'."
     );
   }
-
+  let [owner, repo] = reposplit;
   return [token, owner, repo];
 }
 
