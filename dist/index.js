@@ -12978,24 +12978,28 @@ class PullRequests {
   }
 
   async createPRComments() {}
-  async filterBehindPullREquests() {
+  filterBehindPullREquests() {
     let filteredPRs = [];
     for (let pr of this.pulls) {
       let head = pr["head"]["label"];
       let base = pr["base"]["label"];
 
-      let results = await this.octokit.rest.repos.compareCommitsWithBaseHead({
-        owner: this.owner,
-        repo: this.repo,
-        basehead: `${base}...${head}`,
-      });
+      console.log(typeof(this.octokit.rest.repos.compareCommitsWithBaseHead));
+
+      // let results = this.octokit.rest.repos.compareCommitsWithBaseHead({
+      //   owner: this.owner,
+      //   repo: this.repo,
+      //   basehead: `${base}...${head}`,
+      // });
 
       // let results = await this.octokit.rest.pulls.get({
       //   owner: this.owner,
       //   repo: this.repo,
       //   pull_number: pr.number,
       // });
-      console.log(results);
+
+      // typeof(results)
+      // console.log(results);
     }
   }
 }
