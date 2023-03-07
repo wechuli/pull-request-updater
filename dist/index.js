@@ -12963,9 +12963,11 @@ const axios = __nccwpck_require__(8757);
 const { extractInputsAndEnvs } = __nccwpck_require__(4112);
 
 const headers = {
-  Accept: "application/vnd.github.v3+json",
+  Accept: "application/vnd.github+json",
   Authorization: `Bearer ${extractInputsAndEnvs()[0]}}`,
 };
+
+console.log(headers);
 
 class PullRequests {
   constructor(owner, repo, token) {
