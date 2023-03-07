@@ -12964,7 +12964,7 @@ const { extractInputsAndEnvs } = __nccwpck_require__(4112);
 
 const headers = {
   Accept: "application/vnd.github+json",
-  Authorization: `Bearer ${extractInputsAndEnvs()[0]}}`,
+  Authorization: `Bearer ${extractInputsAndEnvs()[0]}`,
 };
 
 console.log(headers);
