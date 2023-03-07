@@ -1,5 +1,11 @@
 const github = require("@actions/github");
 const axios = require("axios");
+const { extractInputsAndEnvs } = require("../utils/extractor");
+
+const headers = {
+  Accept: "application/vnd.github.v3+json",
+  Authorization: `Bearer ${extractInputsAndEnvs()[0]}}`,
+};
 
 class PullRequests {
   constructor(owner, repo, token) {
@@ -18,28 +24,17 @@ class PullRequests {
   }
 
   async createPRComments() {}
-  filterBehindPullREquests() {
+  async filterBehindPullREquests() {
     let filteredPRs = [];
     for (let pr of this.pulls) {
       let head = pr["head"]["label"];
       let base = pr["base"]["label"];
+      const result = await axios.get(
+        `https://api.github.com/repos/${this.owner}/${this.repo}/compare/${head}...${base}`,
+        { headers }
+      );
 
-      console.log(typeof(this.octokit.rest.repos.compareCommitsWithBaseHead));
-
-      // let results = this.octokit.rest.repos.compareCommitsWithBaseHead({
-      //   owner: this.owner,
-      //   repo: this.repo,
-      //   basehead: `${base}...${head}`,
-      // });
-
-      // let results = await this.octokit.rest.pulls.get({
-      //   owner: this.owner,
-      //   repo: this.repo,
-      //   pull_number: pr.number,
-      // });
-
-      // typeof(results)
-      // console.log(results);
+      console.log(result.data);
     }
   }
 }

@@ -10,7 +10,7 @@ async function run() {
     await pullRequests.getAllPullRequests();
     console.log(pullRequests.pulls);
 
-    pullRequests.filterBehindPullREquests();
+    await pullRequests.filterBehindPullREquests();
     //console.log(pullRequests.pull_requests);
   } catch (error) {
     core.setFailed(error.message);
