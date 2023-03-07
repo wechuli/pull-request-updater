@@ -27,16 +27,20 @@ class PullRequests {
 
   async createPRComments() {}
   async filterBehindPullREquests() {
-    let filteredPRs = [];
-    for (let pr of this.pulls) {
-      let head = pr["head"]["label"];
-      let base = pr["base"]["label"];
-      const result = await axios.get(
-        `https://api.github.com/repos/${this.owner}/${this.repo}/compare/${head}...${base}`,
-        { headers }
-      );
+    try {
+      let filteredPRs = [];
+      for (let pr of this.pulls) {
+        let head = pr["head"]["label"];
+        let base = pr["base"]["label"];
+        const result = await axios.get(
+          `https://api.github.com/repos/${this.owner}/${this.repo}/compare/${head}...${base}`,
+          { headers }
+        );
 
-      console.log(result.data);
+        console.log(result);
+      }
+    } catch (error) {
+      console.log(error);
     }
   }
 }
