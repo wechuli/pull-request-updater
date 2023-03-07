@@ -4,7 +4,7 @@ const { extractInputsAndEnvs } = require("../utils/extractor");
 
 const headers = {
   Accept: "application/vnd.github+json",
-  Authorization: `Bearer ${extractInputsAndEnvs()[0]}}`,
+  Authorization: `Bearer ${extractInputsAndEnvs()[0]}`,
 };
 
 console.log(headers);
