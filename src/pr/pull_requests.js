@@ -3,9 +3,11 @@ const axios = require("axios");
 const { extractInputsAndEnvs } = require("../utils/extractor");
 
 const headers = {
-  Accept: "application/vnd.github.v3+json",
+  Accept: "application/vnd.github+json",
   Authorization: `Bearer ${extractInputsAndEnvs()[0]}}`,
 };
+
+console.log(headers);
 
 class PullRequests {
   constructor(owner, repo, token) {
