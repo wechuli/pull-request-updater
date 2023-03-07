@@ -24,17 +24,17 @@ class PullRequests {
       let head = pr["head"]["label"];
       let base = pr["base"]["label"];
 
-      // let results = await this.octokit.rest.repos.compareCommitsWithBaseHead({
-      //   owner: this.owner,
-      //   repo: this.repo,
-      //   basehead: `${base}...${head}`,
-      // });
-
-      let results = await this.octokit.rest.pulls.get({
+      let results = await this.octokit.rest.repos.compareCommitsWithBaseHead({
         owner: this.owner,
         repo: this.repo,
-        pull_number: pr.number,
+        basehead: `${base}...${head}`,
       });
+
+      // let results = await this.octokit.rest.pulls.get({
+      //   owner: this.owner,
+      //   repo: this.repo,
+      //   pull_number: pr.number,
+      // });
       console.log(results);
     }
   }
