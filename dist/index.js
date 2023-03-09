@@ -17451,10 +17451,8 @@ async function run() {
 
     await pullRequests.filterBehindPullRequests();
 
-    console.log(`All pull requests: ${length(pullRequests.pulls)}`);
-    console.log(
-      `Filtered pull requests: ${length(pullRequests.filteredPulls)}`
-    );
+    console.log(`All pull requests: ${pullRequests.pulls.length}`);
+    console.log(`Filtered pull requests: ${pullRequests.filteredPulls.length}`);
   } catch (error) {
     core.setFailed(error.message);
   }
