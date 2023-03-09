@@ -10,8 +10,12 @@ async function run() {
     await pullRequests.getAllPullRequests();
     console.log(pullRequests.pulls);
 
-    await pullRequests.filterBehindPullREquests();
-    //console.log(pullRequests.pull_requests);
+    await pullRequests.filterBehindPullRequests();
+
+    console.log(`All pull requests: ${length(pullRequests.pulls)}`);
+    console.log(
+      `Filtered pull requests: ${length(pullRequests.filteredPulls)}`
+    );
   } catch (error) {
     core.setFailed(error.message);
   }
