@@ -17447,10 +17447,7 @@ async function run() {
 
     let pullRequests = new PullRequests(owner, repo, token);
     await pullRequests.getAllPullRequests();
-    console.log(pullRequests.pulls);
-
     await pullRequests.filterBehindPullRequests();
-
     console.log(`All pull requests: ${pullRequests.pulls.length}`);
     console.log(`Filtered pull requests: ${pullRequests.filteredPulls.length}`);
   } catch (error) {
