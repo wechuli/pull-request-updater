@@ -12967,7 +12967,6 @@ const headers = {
   Authorization: `Bearer ${extractInputsAndEnvs()[0]}`,
 };
 
-console.log(headers);
 
 class PullRequests {
   constructor(owner, repo, token) {
@@ -12992,14 +12991,14 @@ class PullRequests {
       for (let pr of this.pulls) {
         let head = pr["head"]["label"];
         let base = pr["base"]["label"];
-        const { data: pr } = await axios.get(
+        const { data: pull_request } = await axios.get(
           `https://api.github.com/repos/${this.owner}/${this.repo}/compare/${head}...${base}`,
           { headers }
         );
-        console.log(pr);
+        console.log(pull_request);
 
-        if (pr["behind_by"] > 0) {
-          filteredPRs.push(pr);
+        if (pull_request["behind_by"] > 0) {
+          filteredPRs.push(pull_request);
         }
       }
 
