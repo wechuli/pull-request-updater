@@ -1,5 +1,9 @@
-let fruits = ["apple", "banana", "orange"];
+let person = {
+  name: "John",
+  age: 30,
+};
 
-for (let fruit of fruits) {
-  console.log(fruit);
-}
+let { name: personName, age: personAge } = person;
+
+console.log(personName);
+console.log(personAge);
