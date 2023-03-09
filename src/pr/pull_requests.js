@@ -7,7 +7,6 @@ const headers = {
   Authorization: `Bearer ${extractInputsAndEnvs()[0]}`,
 };
 
-
 class PullRequests {
   constructor(owner, repo, token) {
     this.owner = owner;
@@ -29,10 +28,10 @@ class PullRequests {
     try {
       let filteredPRs = [];
       for (let pr of this.pulls) {
-        let head = pr["head"]["label"];
         let base = pr["base"]["label"];
+        let head = pr["head"]["label"];
         const { data: pull_request } = await axios.get(
-          `https://api.github.com/repos/${this.owner}/${this.repo}/compare/${head}...${base}`,
+          `https://api.github.com/repos/${this.owner}/${this.repo}/compare/${base}...${head}`,
           { headers }
         );
         console.log(pull_request);
