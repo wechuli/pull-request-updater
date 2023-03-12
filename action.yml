@@ -1,4 +1,4 @@
-name: 'Pull request updater'
+name: 'Pull request branch updater'
 description: 'GitHub Action to update pull request with base branches'
 inputs:
   token:
