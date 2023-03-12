@@ -65,6 +65,7 @@ class PullRequests {
   async run() {
     await this.getAllPullRequests();
     await this.filterBehindPullRequests();
+    console.log(this.filteredPulls);
     await this.updatePRbranches();
   }
 }
