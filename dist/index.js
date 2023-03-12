@@ -13011,11 +13011,11 @@ class PullRequests {
       // update prs with base
       for (let pr of this.filteredPulls) {
         try {
-          await this.octokit.pulls.updateBranch({
-            owner: this.owner,
-            repo: this.repo,
-            pull_number: pr["number"],
-          });
+          await axios.put(
+            `https://api.github.com/repos/${this.owner}/${this.repo}/pulls/${pr["number"]}/update-branch`,
+            null,
+            { headers }
+          );
         } catch (error) {
           console.log(error);
         }
