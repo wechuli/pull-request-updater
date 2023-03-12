@@ -50,6 +50,15 @@ class PullRequests {
     if (this.filteredPulls.length > 0) {
       // update prs with base
       for (let pr of this.filteredPulls) {
+        try {
+          await this.octokit.pulls.updateBranch({
+            owner: this.owner,
+            repo: this.repo,
+            pull_number: pr["number"],
+          });
+        } catch (error) {
+          console.log(error);
+        }
       }
     }
   }
