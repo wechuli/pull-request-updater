@@ -13044,6 +13044,20 @@ class PullRequests {
           console.log(`error updating pr: ${pr["number"]}`);
           console.log(error.response.data);
           console.log("...........................................");
+
+          // create comment on pull request if the error is as a result of merge conflicts
+
+          if (
+            error.response.data.message ==
+            "merge conflict between base and head"
+          ) {
+            await this.createPRComments(
+              this.owner,
+              this.repo,
+              pr["number"],
+              `This pull request has merge conflicts that must be resolved before it can be updated with the latest changes from the base branch (${pr.base.ref}).`
+            );
+          }
         }
       }
     }
@@ -13052,8 +13066,6 @@ class PullRequests {
   async run() {
     await this.getAllPullRequests();
     await this.filterBehindPullRequests();
-    console.log("behind PRs", this.filteredPulls.length);
-    console.log("all pulls", this.pulls.length);
     await this.updatePRbranches();
   }
 }
