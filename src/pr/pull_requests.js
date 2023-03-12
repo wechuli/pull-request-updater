@@ -13,6 +13,7 @@ class PullRequests {
     this.repo = repo;
     this.token = token;
     this.octokit = github.getOctokit(token);
+    this.filteredPulls = [];
   }
 
   async getAllPullRequests() {
@@ -34,7 +35,6 @@ class PullRequests {
           `https://api.github.com/repos/${this.owner}/${this.repo}/compare/${base}...${head}`,
           { headers }
         );
-        console.log(pull_request);
 
         if (pull_request["behind_by"] > 0) {
           filteredPRs.push(pull_request);
@@ -45,6 +45,19 @@ class PullRequests {
     } catch (error) {
       console.log(error);
     }
+  }
+  async updatePRbranches() {
+    if (this.filteredPulls.length > 0) {
+      // update prs with base
+      for (let pr of this.filteredPulls) {
+      }
+    }
+  }
+
+  async run() {
+    await this.getAllPullRequests();
+    await this.filterBehindPullRequests();
+    await this.updatePRbranches();
   }
 }
 

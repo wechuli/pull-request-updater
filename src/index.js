@@ -7,10 +7,7 @@ async function run() {
     let [token, owner, repo] = extractInputsAndEnvs();
 
     let pullRequests = new PullRequests(owner, repo, token);
-    await pullRequests.getAllPullRequests();
-    await pullRequests.filterBehindPullRequests();
-    console.log(`All pull requests: ${pullRequests.pulls.length}`);
-    console.log(`Filtered pull requests: ${pullRequests.filteredPulls.length}`);
+    await pullRequests.run();
   } catch (error) {
     core.setFailed(error.message);
   }

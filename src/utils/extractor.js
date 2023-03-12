@@ -1,8 +1,9 @@
 const core = require("@actions/core");
 
-function extractInputsAndEnvs() {
-  const token = core.getInput("token");
-  const repoFull = core.getInput("repo") || process.env["GITHUB_REPOSITORY"];
+function extractInputsAndEnvs(
+  token = core.getInput("token"),
+  repoFull = core.getInput("repo") || process.env["GITHUB_REPOSITORY"]
+) {
   let reposplit = repoFull.split("/");
 
   // check if the repository is valid
