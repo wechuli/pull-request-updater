@@ -39,9 +39,8 @@ class PullRequests {
         if (pull_request["behind_by"] > 0) {
           filteredPRs.push(pull_request);
         }
+        this.filteredPulls = pr;
       }
-
-      this.filteredPulls = pr;
     } catch (error) {
       console.log(error);
     }
