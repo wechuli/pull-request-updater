@@ -12964,6 +12964,7 @@ const { extractInputsAndEnvs } = __nccwpck_require__(4112);
 
 const headers = {
   Accept: "application/vnd.github+json",
+  "X-GitHub-Api-Version": "2022-11-28",
   Authorization: `Bearer ${extractInputsAndEnvs()[0]}`,
 };
 
@@ -12984,7 +12985,21 @@ class PullRequests {
     this.pulls = allOpenPullRequests;
   }
 
-  async createPRComments() {}
+  async createPRComments(owner, repo, prNumber, comment) {
+    try {
+      const response = await axios.post(
+        `https://api.github.com/repos/${owner}/${repo}/issues/${prNumber}/comments`,
+        {
+          body: comment,
+        },
+        {
+          headers,
+        }
+      );
+    } catch (error) {
+      console.log(error.response.data);
+    }
+  }
   async filterBehindPullRequests() {
     try {
       let filteredPRs = [];
@@ -13014,6 +13029,15 @@ class PullRequests {
             `https://api.github.com/repos/${this.owner}/${this.repo}/pulls/${pr["number"]}/update-branch`,
             null,
             { headers }
+          );
+          // get current utc time
+          const date = new Date();
+          const utcDate = date.toUTCString();
+          await this.createPRComments(
+            this.owner,
+            this.repo,
+            pr["number"],
+            `This pull request has been updated at ${utcDate} with the latest changes from the base branch (${pr.base.ref}).`
           );
         } catch (error) {
           console.log("...........................................");
