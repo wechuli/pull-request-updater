@@ -1,5 +1,8 @@
 name: 'Pull request branch updater'
-description: 'GitHub Action to update pull request with base branches'
+description: 'GitHub Action to update the pull request branch with the base branch'
+branding:
+  icon: 'git-pull-request'
+  color: 'blue'
 inputs:
   token:
     description: 'token to be used for making authenticated calls to the GitHub API'
