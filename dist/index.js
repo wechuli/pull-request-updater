@@ -13025,7 +13025,8 @@ class PullRequests {
   async run() {
     await this.getAllPullRequests();
     await this.filterBehindPullRequests();
-    console.log(this.filteredPulls);
+    console.log("behind PRs", this.filteredPulls.length);
+    console.log("all pulls", this.pulls.length);
     await this.updatePRbranches();
   }
 }
