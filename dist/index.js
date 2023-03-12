@@ -13016,7 +13016,8 @@ class PullRequests {
             { headers }
           );
         } catch (error) {
-          console.log(error);
+          console.log(`error updating pr: ${pr["number"]}`);
+          console.log(error.response.data);
         }
       }
     }
