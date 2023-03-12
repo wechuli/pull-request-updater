@@ -13001,7 +13001,7 @@ class PullRequests {
         }
       }
 
-      this.filteredPulls = filteredPRs;
+      this.filteredPulls = pr;
     } catch (error) {
       console.log(error);
     }
@@ -13010,7 +13010,6 @@ class PullRequests {
     if (this.filteredPulls.length > 0) {
       // update prs with base
       for (let pr of this.filteredPulls) {
-        console.log(pr);
         try {
           await axios.put(
             `https://api.github.com/repos/${this.owner}/${this.repo}/pulls/${pr["number"]}/update-branch`,
