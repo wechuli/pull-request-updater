@@ -12973,6 +12973,7 @@ class PullRequests {
     this.repo = repo;
     this.token = token;
     this.octokit = github.getOctokit(token);
+    this.filteredPulls = [];
   }
 
   async getAllPullRequests() {
@@ -12994,7 +12995,6 @@ class PullRequests {
           `https://api.github.com/repos/${this.owner}/${this.repo}/compare/${base}...${head}`,
           { headers }
         );
-        console.log(pull_request);
 
         if (pull_request["behind_by"] > 0) {
           filteredPRs.push(pull_request);
@@ -13005,6 +13005,19 @@ class PullRequests {
     } catch (error) {
       console.log(error);
     }
+  }
+  async updatePRbranches() {
+    if (this.filteredPulls.length > 0) {
+      // update prs with base
+      for (let pr of this.filteredPulls) {
+      }
+    }
+  }
+
+  async run() {
+    await this.getAllPullRequests();
+    await this.filterBehindPullRequests();
+    await this.updatePRbranches();
   }
 }
 
@@ -13018,9 +13031,10 @@ module.exports = PullRequests;
 
 const core = __nccwpck_require__(2186);
 
-function extractInputsAndEnvs() {
-  const token = core.getInput("token");
-  const repoFull = core.getInput("repo") || process.env["GITHUB_REPOSITORY"];
+function extractInputsAndEnvs(
+  token = core.getInput("token"),
+  repoFull = core.getInput("repo") || process.env["GITHUB_REPOSITORY"]
+) {
   let reposplit = repoFull.split("/");
 
   // check if the repository is valid
@@ -17444,10 +17458,7 @@ async function run() {
     let [token, owner, repo] = extractInputsAndEnvs();
 
     let pullRequests = new PullRequests(owner, repo, token);
-    await pullRequests.getAllPullRequests();
-    await pullRequests.filterBehindPullRequests();
-    console.log(`All pull requests: ${pullRequests.pulls.length}`);
-    console.log(`Filtered pull requests: ${pullRequests.filteredPulls.length}`);
+    await pullRequests.run();
   } catch (error) {
     core.setFailed(error.message);
   }
