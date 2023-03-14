@@ -13085,7 +13085,8 @@ function extractInputsAndEnvs(
   repoFull = core.getInput("repo"),
   base = core.getInput("base"),
   head = core.getInput("head"),
-  updateforks = core.getInput("updateforks")
+  updateforks = core.getInput("updateforks"),
+  createComments = core.getInput("create-comments")
 ) {
   let reposplit = repoFull.split("/");
 
