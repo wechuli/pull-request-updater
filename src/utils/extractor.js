@@ -2,7 +2,9 @@ const core = require("@actions/core");
 
 function extractInputsAndEnvs(
   token = core.getInput("token"),
-  repoFull = core.getInput("repo") || process.env["GITHUB_REPOSITORY"]
+  repoFull = core.getInput("repo") || process.env["GITHUB_REPOSITORY"],
+  base = core.getInput("base"),
+  head = core.getInput("head")
 ) {
   let reposplit = repoFull.split("/");
 

@@ -12,6 +12,18 @@ inputs:
     description: 'the repo where you want to update the pull requests, defaults to the current repository executing the runner'
     required: false
     default: ${{ github.repository }}
+  base:
+    description: 'the base branch(es) to filter for when doing the update, defaults to * which will update all branches regardless of the base branch, you can specify multiple branches separated by commas, supports regular expressions'
+    required: false
+    default: '*'
+  head:
+    description: 'the head branch(es) to filter for when doing the update, defaults to * which will update all branches regardless of the head branch, you can specify multiple branches separated by commas, supports regular expressions'
+    required: false
+    default: '*'
+  updateforks:
+    description: 'whether to update pull requests from forks, defaults to false, if you set this to true, you need to provide a token with the appropriate permissions to those forks'
+    required: false
+    default: 'false'
 runs:
   using: 'node16'
   main: 'dist/index.js'
