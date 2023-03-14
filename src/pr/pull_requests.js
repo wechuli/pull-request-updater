@@ -1,4 +1,5 @@
 const github = require("@actions/github");
+const { GitHub } = require("@actions/github/lib/utils");
 const axios = require("axios");
 const { extractInputsAndEnvs } = require("../utils/extractor");
 
@@ -9,12 +10,23 @@ const headers = {
 };
 
 class PullRequests {
-  constructor(owner, repo, token) {
+  constructor(
+    owner,
+    repo,
+    token,
+    serverURL = process.env["GITHUB_SERVER_URL"]
+  ) {
     this.owner = owner;
     this.repo = repo;
     this.token = token;
     this.octokit = github.getOctokit(token);
     this.filteredPulls = [];
+
+    // serverURL is in the form https://github.com i want to extract only the github.com part
+
+    this.URL = serverURL.split("//")[2];
+
+    // get server endpoint in case ghes
   }
 
   async getAllPullRequests() {
@@ -28,7 +40,7 @@ class PullRequests {
   async createPRComments(owner, repo, prNumber, comment) {
     try {
       const response = await axios.post(
-        `https://api.github.com/repos/${owner}/${repo}/issues/${prNumber}/comments`,
+        `https://api.${this.URL}/repos/${owner}/${repo}/issues/${prNumber}/comments`,
         {
           body: comment,
         },
@@ -47,7 +59,7 @@ class PullRequests {
         let base = pr["base"]["label"];
         let head = pr["head"]["label"];
         const { data: pull_request } = await axios.get(
-          `https://api.github.com/repos/${this.owner}/${this.repo}/compare/${base}...${head}`,
+          `https://api.${this.URL}/repos/${this.owner}/${this.repo}/compare/${base}...${head}`,
           { headers }
         );
 
@@ -66,7 +78,7 @@ class PullRequests {
       for (let pr of this.filteredPulls) {
         try {
           await axios.put(
-            `https://api.github.com/repos/${this.owner}/${this.repo}/pulls/${pr["number"]}/update-branch`,
+            `https://api.${this.URL}/repos/${this.owner}/${this.repo}/pulls/${pr["number"]}/update-branch`,
             null,
             { headers }
           );
