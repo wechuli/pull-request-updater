@@ -19,12 +19,13 @@ This action will only update the pull request branch if it is behind the base br
 
 ## Authentication
 
-The Action will by default use the `$GITHUB_TOKEN` to make authenticated requests to the GitHub API. If you want to use a different token, you can set the `token` input to the token you want to use. The `GITHUB_TOKEN` is scoped to the repository where the workflow is executing, so if you specify a different repository, you'll need to pass a Personal Access Token or GitHub App token that has access to that repository.
+The Action will by default use the `$GITHUB_TOKEN` to make authenticated requests to the GitHub API. If you want to use a different token, you can set the `token` input to the token you want to use. The `GITHUB_TOKEN` is scoped to the repository where the workflow is executing, so if you specify a different repository, you'll need to pass a [Personal Access Token](https://docs.github.com/en/authentication/keeping-your-account-and-data-secure/creating-a-personal-access-token) or [GitHub App token](https://docs.github.com/en/authentication/connecting-to-github-with-ssh/managing-deploy-keys#server-to-server-tokens) that has access to that repository.
 
-A PAT will need the `repo` scope to be able to update pull requests and add comments to the issues. The `GITHUB_TOKEN` and in general all GitHub App tokens will need the 
+A PAT will need the `repo` scope to be able to update pull requests and add comments to the issues. The `GITHUB_TOKEN` and in general all GitHub App tokens will need the `pull-request: write` and `issues: write`
 
 ## Additional
 
+- Edit the endpoints to Factor in using GHES as well
 - By default use GITHUB_TOKEN
 - Provide appropriate warnings in case of merge conflicts
 - Provide warnings in case of forks
