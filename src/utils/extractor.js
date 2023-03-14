@@ -13,7 +13,7 @@ function extractInputsAndEnvs(
   // check if the repository is valid
   try {
     if (reposplit.length !== 2) {
-      throw new Error("Invalid repository format");
+      throw new Error();
     }
   } catch (error) {
     throw new Error(
@@ -21,7 +21,7 @@ function extractInputsAndEnvs(
     );
   }
   let [owner, repo] = reposplit;
-  return [token, owner, repo];
+  return { token, owner, repo };
 }
 
 module.exports = {

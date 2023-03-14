@@ -4,7 +4,7 @@ const { extractInputsAndEnvs } = require("./utils/extractor");
 
 async function run() {
   try {
-    let [token, owner, repo] = extractInputsAndEnvs();
+    let { token, owner, repo } = extractInputsAndEnvs();
 
     let pullRequests = new PullRequests(owner, repo, token);
     await pullRequests.run();

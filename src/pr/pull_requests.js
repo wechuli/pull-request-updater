@@ -1,12 +1,11 @@
 const github = require("@actions/github");
-const { GitHub } = require("@actions/github/lib/utils");
 const axios = require("axios");
 const { extractInputsAndEnvs } = require("../utils/extractor");
 
 const headers = {
   Accept: "application/vnd.github+json",
   "X-GitHub-Api-Version": "2022-11-28",
-  Authorization: `Bearer ${extractInputsAndEnvs()[0]}`,
+  Authorization: `Bearer ${extractInputsAndEnvs().token}`,
 };
 
 class PullRequests {
