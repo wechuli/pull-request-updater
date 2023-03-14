@@ -12965,16 +12965,27 @@ const { extractInputsAndEnvs } = __nccwpck_require__(4112);
 const headers = {
   Accept: "application/vnd.github+json",
   "X-GitHub-Api-Version": "2022-11-28",
-  Authorization: `Bearer ${extractInputsAndEnvs()[0]}`,
+  Authorization: `Bearer ${extractInputsAndEnvs().token}`,
 };
 
 class PullRequests {
-  constructor(owner, repo, token) {
+  constructor(
+    owner,
+    repo,
+    token,
+    serverURL = process.env["GITHUB_SERVER_URL"]
+  ) {
     this.owner = owner;
     this.repo = repo;
     this.token = token;
     this.octokit = github.getOctokit(token);
     this.filteredPulls = [];
+
+    // serverURL is in the form https://github.com i want to extract only the github.com part
+
+    this.URL = serverURL.split("//")[2];
+
+    // get server endpoint in case ghes
   }
 
   async getAllPullRequests() {
@@ -12988,7 +12999,7 @@ class PullRequests {
   async createPRComments(owner, repo, prNumber, comment) {
     try {
       const response = await axios.post(
-        `https://api.github.com/repos/${owner}/${repo}/issues/${prNumber}/comments`,
+        `https://api.${this.URL}/repos/${owner}/${repo}/issues/${prNumber}/comments`,
         {
           body: comment,
         },
@@ -13007,7 +13018,7 @@ class PullRequests {
         let base = pr["base"]["label"];
         let head = pr["head"]["label"];
         const { data: pull_request } = await axios.get(
-          `https://api.github.com/repos/${this.owner}/${this.repo}/compare/${base}...${head}`,
+          `https://api.${this.URL}/repos/${this.owner}/${this.repo}/compare/${base}...${head}`,
           { headers }
         );
 
@@ -13026,7 +13037,7 @@ class PullRequests {
       for (let pr of this.filteredPulls) {
         try {
           await axios.put(
-            `https://api.github.com/repos/${this.owner}/${this.repo}/pulls/${pr["number"]}/update-branch`,
+            `https://api.${this.URL}/repos/${this.owner}/${this.repo}/pulls/${pr["number"]}/update-branch`,
             null,
             { headers }
           );
@@ -13093,7 +13104,7 @@ function extractInputsAndEnvs(
   // check if the repository is valid
   try {
     if (reposplit.length !== 2) {
-      throw new Error("Invalid repository format");
+      throw new Error();
     }
   } catch (error) {
     throw new Error(
@@ -13101,7 +13112,7 @@ function extractInputsAndEnvs(
     );
   }
   let [owner, repo] = reposplit;
-  return [token, owner, repo];
+  return { token, owner, repo };
 }
 
 module.exports = {
@@ -17508,7 +17519,7 @@ const { extractInputsAndEnvs } = __nccwpck_require__(4112);
 
 async function run() {
   try {
-    let [token, owner, repo] = extractInputsAndEnvs();
+    let { token, owner, repo } = extractInputsAndEnvs();
 
     let pullRequests = new PullRequests(owner, repo, token);
     await pullRequests.run();
