@@ -12,6 +12,10 @@ inputs:
     description: 'the repo where you want to update the pull requests, defaults to the current repository executing the runner'
     required: false
     default: ${{ github.repository }}
+  create-comments:
+    description: 'choose whether to create comments on the pull request with details about the update, defaults to true'
+    required: false
+    default: 'true'
   base:
     description: 'the base branch(es) to filter for when doing the update, defaults to * which will update all branches regardless of the base branch, you can specify multiple branches separated by commas, supports regular expressions'
     required: false
