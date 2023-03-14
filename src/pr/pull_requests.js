@@ -24,6 +24,7 @@ class PullRequests {
     // serverURL is in the form https://github.com i want to extract only the github.com part
 
     this.URL = serverURL.split("//")[2];
+    console.log(serverURL);
     console.log(this.URL);
     console.log(process.env["GITHUB_SERVER_URL"]);
 
