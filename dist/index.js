@@ -13082,7 +13082,10 @@ const core = __nccwpck_require__(2186);
 
 function extractInputsAndEnvs(
   token = core.getInput("token"),
-  repoFull = core.getInput("repo") || process.env["GITHUB_REPOSITORY"]
+  repoFull = core.getInput("repo"),
+  base = core.getInput("base"),
+  head = core.getInput("head"),
+  updateforks = core.getInput("updateforks")
 ) {
   let reposplit = repoFull.split("/");
 
