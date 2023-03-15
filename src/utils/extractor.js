@@ -27,7 +27,6 @@ function extractInputsAndEnvs(
     owner,
     repo,
     createComments: createComments === "true",
-    updateforks: updateforks === "true",
     base,
     head,
   };

@@ -31,13 +31,18 @@ class PullRequests {
     this.pulls = allOpenPullRequests;
   }
 
-  async createPRComments(owner, repo, prNumber, comment) {
-    let createComments = extractInputsAndEnvs().createComments;
+  async createPRComments(
+    owner,
+    repo,
+    prNumber,
+    comment,
+    createComments = extractInputsAndEnvs().createComments
+  ) {
     if (!createComments) {
       return;
     }
     try {
-      const response = await axios.post(
+      await axios.post(
         `https://api.${this.URL}/repos/${owner}/${repo}/issues/${prNumber}/comments`,
         {
           body: comment,
@@ -52,7 +57,6 @@ class PullRequests {
   }
   async filterBehindPullRequests() {
     try {
-      let filteredPRs = [];
       for (let pr of this.pulls) {
         let base = pr["base"]["label"];
         let head = pr["head"]["label"];
@@ -62,7 +66,6 @@ class PullRequests {
         );
 
         if (pull_request["behind_by"] > 0) {
-          filteredPRs.push(pull_request);
           this.filteredPulls.push(pr);
         }
       }
