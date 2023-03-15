@@ -20,12 +20,7 @@ class PullRequests {
     this.token = token;
     this.octokit = github.getOctokit(token);
     this.filteredPulls = [];
-
-    // serverURL is in the form https://github.com i want to extract only the github.com part
-
     this.URL = serverURL.split("/")[2];
-
-    // get server endpoint in case ghes
   }
 
   async getAllPullRequests() {
@@ -37,6 +32,10 @@ class PullRequests {
   }
 
   async createPRComments(owner, repo, prNumber, comment) {
+    let createComments = extractInputsAndEnvs().createComments;
+    if (!createComments) {
+      return;
+    }
     try {
       const response = await axios.post(
         `https://api.${this.URL}/repos/${owner}/${repo}/issues/${prNumber}/comments`,

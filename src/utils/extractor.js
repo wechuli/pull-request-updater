@@ -20,8 +20,17 @@ function extractInputsAndEnvs(
       "It appears the repository format is invalid. Please use the format 'owner/repo'."
     );
   }
+
   let [owner, repo] = reposplit;
-  return { token, owner, repo };
+  return {
+    token,
+    owner,
+    repo,
+    createComments: createComments === "true",
+    updateforks: updateforks === "true",
+    base,
+    head,
+  };
 }
 
 module.exports = {

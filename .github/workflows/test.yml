@@ -1,6 +1,6 @@
 name: Test pull request updater
 on:
-  workflow_dispatch:
+  workflow_dispatch:   
 
 jobs:
   testjob:
