@@ -56,10 +56,27 @@ class PullRequests {
       console.log(error.response.data);
     }
   }
-  async filterPrByBranches() {}
-  async filterBehindPullRequests() {
+  async filterPrsByBranches(prs = this.pulls) {
+    let localsFilteredPrs = [];
+    let baseFilters = branchesFilter(extractInputsAndEnvs().base);
+    let headFilters = branchesFilter(extractInputsAndEnvs().head);
+    for (let pr of prs) {
+      let base = pr["base"]["ref"];
+      let head = pr["head"]["ref"];
+      for (let baseBranchFilter of baseFilters) {
+        for (let headBranchFilter of headFilters) {
+          if (baseBranchFilter(base) && headBranchFilter(head)) {
+            localsFilteredPrs.push(pr);
+          }
+        }
+      }
+    }
+    this.filteredPulls = localsFilteredPrs;
+  }
+  async filterBehindPullRequests(prs = this.filteredPulls) {
+    let localFilteredPulls = [];
     try {
-      for (let pr of this.pulls) {
+      for (let pr of prs) {
         let base = pr["base"]["label"];
         let head = pr["head"]["label"];
         const { data: pull_request } = await axios.get(
@@ -68,9 +85,10 @@ class PullRequests {
         );
 
         if (pull_request["behind_by"] > 0) {
-          this.filteredPulls.push(pr);
+          localFilteredPulls.push(pr);
         }
       }
+      this.filteredPulls = localFilteredPulls;
     } catch (error) {
       console.log(error);
     }
@@ -121,6 +139,7 @@ class PullRequests {
 
   async run() {
     await this.getAllPullRequests();
+    await this.filterPrsByBranches();
     await this.filterBehindPullRequests();
     await this.updatePRbranches();
   }
