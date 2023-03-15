@@ -12980,12 +12980,7 @@ class PullRequests {
     this.token = token;
     this.octokit = github.getOctokit(token);
     this.filteredPulls = [];
-
-    // serverURL is in the form https://github.com i want to extract only the github.com part
-
     this.URL = serverURL.split("/")[2];
-
-    // get server endpoint in case ghes
   }
 
   async getAllPullRequests() {
@@ -12996,9 +12991,18 @@ class PullRequests {
     this.pulls = allOpenPullRequests;
   }
 
-  async createPRComments(owner, repo, prNumber, comment) {
+  async createPRComments(
+    owner,
+    repo,
+    prNumber,
+    comment,
+    createComments = extractInputsAndEnvs().createComments
+  ) {
+    if (!createComments) {
+      return;
+    }
     try {
-      const response = await axios.post(
+      await axios.post(
         `https://api.${this.URL}/repos/${owner}/${repo}/issues/${prNumber}/comments`,
         {
           body: comment,
@@ -13013,7 +13017,6 @@ class PullRequests {
   }
   async filterBehindPullRequests() {
     try {
-      let filteredPRs = [];
       for (let pr of this.pulls) {
         let base = pr["base"]["label"];
         let head = pr["head"]["label"];
@@ -13023,7 +13026,6 @@ class PullRequests {
         );
 
         if (pull_request["behind_by"] > 0) {
-          filteredPRs.push(pull_request);
           this.filteredPulls.push(pr);
         }
       }
@@ -13096,7 +13098,6 @@ function extractInputsAndEnvs(
   repoFull = core.getInput("repo"),
   base = core.getInput("base"),
   head = core.getInput("head"),
-  updateforks = core.getInput("updateforks"),
   createComments = core.getInput("create-comments")
 ) {
   let reposplit = repoFull.split("/");
@@ -13111,8 +13112,16 @@ function extractInputsAndEnvs(
       "It appears the repository format is invalid. Please use the format 'owner/repo'."
     );
   }
+
   let [owner, repo] = reposplit;
-  return { token, owner, repo };
+  return {
+    token,
+    owner,
+    repo,
+    createComments: createComments === "true",
+    base,
+    head,
+  };
 }
 
 module.exports = {
