@@ -1,6 +1,7 @@
 const github = require("@actions/github");
 const axios = require("axios");
 const { extractInputsAndEnvs } = require("../utils/extractor");
+const { branchesFilter } = require("../utils/branchesFilter");
 
 const headers = {
   Accept: "application/vnd.github+json",
@@ -55,6 +56,7 @@ class PullRequests {
       console.log(error.response.data);
     }
   }
+  async filterPrByBranches() {}
   async filterBehindPullRequests() {
     try {
       for (let pr of this.pulls) {
@@ -73,6 +75,7 @@ class PullRequests {
       console.log(error);
     }
   }
+
   async updatePRbranches() {
     if (this.filteredPulls.length > 0) {
       // update prs with base
