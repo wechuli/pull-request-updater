@@ -17,13 +17,13 @@ inputs:
     required: false
     default: 'true'
   base:
-    description: 'the base branch(es) to filter for when doing the update, defaults to * which will update all branches regardless of the base branch, you can specify multiple branches separated by commas, supports regular expressions'
+    description: 'the base branch(es) to filter for when doing the update, defaults to ** which will update all branches regardless of the base branch, you can specify multiple branches separated by commas, supports regular expressions'
     required: false
-    default: '*'
+    default: '**'
   head:
-    description: 'the head branch(es) to filter for when doing the update, defaults to * which will update all branches regardless of the head branch, you can specify multiple branches separated by commas, supports regular expressions'
+    description: 'the head branch(es) to filter for when doing the update, defaults to ** which will update all branches regardless of the head branch, you can specify multiple branches separated by commas, supports regular expressions'
     required: false
-    default: '*'
+    default: '**'
 runs:
   using: 'node16'
   main: 'dist/index.js'
