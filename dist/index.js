@@ -15269,7 +15269,6 @@ function extractInputsAndEnvs(
   createComments = core.getInput("create-comments")
 ) {
   let reposplit = repoFull.split("/");
-
   // check if the repository is valid
   try {
     if (reposplit.length !== 2) {
