@@ -15189,11 +15189,12 @@ class PullRequests {
             this.owner,
             this.repo,
             pr["number"],
-            `This pull request has been updated at ${utcDate} with the latest changes from the base branch (${pr.base.ref}).`
+            `This pull request has been updated on ${utcDate} with the latest changes from the base branch (${pr.base.ref}).`
           );
         } catch (error) {
           console.log("...........................................");
-          console.log(`error updating pr: ${pr["number"]}`);
+          // show link to pr
+          console.log(`error updating pr: ${pr["number"]} - ${pr["url"]}`);
           console.log(error.response.data);
           console.log("...........................................");
 
