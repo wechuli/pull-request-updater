@@ -24,8 +24,8 @@ The action can be configured using the following inputs:
 
 - `token`: The token to use to authenticate with the GitHub API. Defaults to the `$GITHUB_TOKEN`
 - `repository`: The repository to update the pull requests for. Defaults to the repository where the workflow is running. If you want to update pull requests in a different repository, you'll need to pass a [Personal Access Token](https://docs.github.com/en/authentication/keeping-your-account-and-data-secure/creating-a-personal-access-token) or [GitHub App token](https://docs.github.com/en/authentication/connecting-to-github-with-ssh/managing-deploy-keys#server-to-server-tokens) that has access to that repository.
-- `base`: The action will only update pull requests that match this base branch pattern. Default to `**` which means it won't filter by base branch.
-- `head`: The action will only update pull requests that match this head branch pattern. Default to `**` which means it won't filter by head branch.
+- `base`: The action will only update pull requests that match this base branch pattern. Default to `**` which means it won't filter by base branch. This is useful if you want to update all pull requests for a specific branch, e.g. `main`. The basic syntax for glob patterns matching id documented [here](https://docs.github.com/en/actions/using-workflows/workflow-syntax-for-github-actions#filter-pattern-cheat-sheet).
+- `head`: The action will only update pull requests that match this head branch pattern. Default to `**` which means it won't filter by head branch. This is useful if you want to update all pull requests for a specific branch, e.g. `feature/*`.
 - `create-comment`: Whether to create a comment on the pull request when the branch is updated. Defaults to `true`. If this is set to `false`, the action will only update the pull request branch and not create a comment. This additional comment can be useful to notify the pull request author that the branch has been updated, or if any errors occurred during the update.
 
 ## Examples
