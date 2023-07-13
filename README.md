@@ -96,3 +96,5 @@ The action can be configured using the following inputs:
 
 - Provide warnings in case of forks
 - Provide options to choose whether to try to update fork pull requests or not
+- Ability to pass an array for either head, or base branch
+- Ability to pass an ignore list for either head or base
